@@ -1,7 +1,8 @@
 FROM php:fpm-alpine
 
 #RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-RUN apk add --update --no-cache --virtual .build-dependencies $PHPIZE_DEPS shadow imagemagick-dev zlib-dev libmemcached-dev libpng-dev gmp-dev icu-dev libzip-dev && \
+RUN apk add --update --no-cache --virtual .build-dependencies $PHPIZE_DEPS shadow && \
+    apk add --update --no-cache imagemagick-dev zlib-dev libmemcached-dev libpng-dev gmp-dev icu-dev libzip-dev && \
     usermod -u 1000 www-data && groupmod -g 1000 www-data && \
     pecl install apcu imagick memcached redis && \
     docker-php-ext-enable apcu imagick memcached redis && \
