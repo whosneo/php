@@ -3,7 +3,7 @@ name: Auto build php:fpm-alpine with custom extensions
 on:
   push:
     branches:
-      - master
+      - 'main'
 
 jobs:
   auto_build_php:
