@@ -1,6 +1,8 @@
 name: Auto build php:fpm-alpine with custom extensions
 
 on:
+  schedule:
+    - cron: '0 19 * * *'
   push:
     branches:
       - 'main'
