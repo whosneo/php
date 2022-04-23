@@ -7,4 +7,6 @@ RUN apk add --update --no-cache --virtual .build-dependencies $PHPIZE_DEPS shado
     pecl install apcu imagick memcached redis && \
     docker-php-ext-enable apcu imagick memcached redis && \
     docker-php-ext-install pdo mysqli pdo_mysql bcmath exif gd gmp intl opcache pcntl sockets zip && \
+    echo "apc.enable_cli = 1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini && \
+    echo "opcache.enable_cli = 1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini && \
     pecl clear-cache && apk del .build-dependencies && rm -rf /tmp/*
