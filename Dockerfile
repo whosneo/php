@@ -8,7 +8,7 @@ RUN apk add --update --no-cache --virtual .build-dependencies shadow && \
     chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions apcu imagick memcached redis pdo mysqli pdo_mysql bcmath exif gd gmp intl opcache pcntl sockets zip && \
     sed -i 's/pm.max_children = 5/pm.max_children = 16/g' /usr/local/etc/php-fpm.d/www.conf && \
-    sed -i 's/pm.start_servers = 2/pm.max_children = 4/g' /usr/local/etc/php-fpm.d/www.conf && \
+    sed -i 's/pm.start_servers = 2/pm.start_servers = 4/g' /usr/local/etc/php-fpm.d/www.conf && \
     sed -i 's/pm.min_spare_servers = 1/pm.min_spare_servers = 4/g' /usr/local/etc/php-fpm.d/www.conf && \
     sed -i 's/pm.max_spare_servers = 3/pm.max_spare_servers = 12/g' /usr/local/etc/php-fpm.d/www.conf && \
     cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
