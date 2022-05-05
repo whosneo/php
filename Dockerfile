@@ -17,4 +17,4 @@ RUN apk add --update --no-cache --virtual .build-dependencies shadow && \
     sed -i 's/post_max_size = 8M/post_max_size = 32M/g' /usr/local/etc/php/php.ini && \
     echo "apc.enable_cli = 1" >> /usr/local/etc/php/conf.d/docker-php-ext-apcu.ini && \
     echo "opcache.enable_cli = 1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini && \
-    echo "opcache.interned_strings_buffer = 16" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+    echo "opcache.interned_strings_buffer = 32" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
