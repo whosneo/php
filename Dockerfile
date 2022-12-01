@@ -4,7 +4,7 @@ FROM php:fpm-alpine
 RUN apk add --update --no-cache --virtual .build-dependencies shadow && \
     usermod -u 1000 www-data && groupmod -g 1000 www-data && \
     apk del .build-dependencies && \
-    apk add --update --nocache diffutils git && \
+    apk add --update --no-cache diffutils git && \
     rm -rf /tmp/* && \
     curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
     chmod +x /usr/local/bin/install-php-extensions && \
