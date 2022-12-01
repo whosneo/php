@@ -3,7 +3,9 @@ FROM php:fpm-alpine
 #RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 RUN apk add --update --no-cache --virtual .build-dependencies shadow && \
     usermod -u 1000 www-data && groupmod -g 1000 www-data && \
-    apk del .build-dependencies && rm -rf /tmp/* && \
+    apk del .build-dependencies && \
+    apk add --update --nocache diffutils git && \
+    rm -rf /tmp/* && \
     curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
     chmod +x /usr/local/bin/install-php-extensions && \
     install-php-extensions apcu imagick memcached redis pdo mysqli pdo_mysql bcmath exif gd gmp intl opcache pcntl sockets zip && \
