@@ -8,8 +8,7 @@ RUN apk add --update --no-cache --virtual .build-dependencies shadow && \
     rm -rf /tmp/*
 RUN curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
     chmod +x /usr/local/bin/install-php-extensions
-RUN install-php-extensions apcu memcached redis mysqli pdo_mysql bcmath exif gd gmp intl opcache pcntl sockets zip sysvsem bz2
-RUN install-php-extensions imagick
+RUN install-php-extensions apcu imagick memcached redis mysqli pdo_mysql bcmath exif gd gmp intl opcache pcntl sockets zip sysvsem bz2
 RUN sed -i 's/pm.max_children = 5/pm.max_children = 16/g' /usr/local/etc/php-fpm.d/www.conf && \
     sed -i 's/pm.start_servers = 2/pm.start_servers = 4/g' /usr/local/etc/php-fpm.d/www.conf && \
     sed -i 's/pm.min_spare_servers = 1/pm.min_spare_servers = 4/g' /usr/local/etc/php-fpm.d/www.conf && \
