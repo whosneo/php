@@ -5,12 +5,11 @@ RUN apk add --update --no-cache --virtual .build-dependencies shadow && \
     usermod -u 1000 www-data && groupmod -g 1000 www-data && \
     apk del .build-dependencies && \
     apk add --update --no-cache diffutils git && \
-    rm -rf /tmp/* && \
-    curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
-    chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions apcu imagick memcached redis mysqli pdo_mysql &&\
-    install-php-extensions bcmath exif gd gmp intl opcache pcntl sockets zip sysvsem bz2 && \
-    sed -i 's/pm.max_children = 5/pm.max_children = 16/g' /usr/local/etc/php-fpm.d/www.conf && \
+    rm -rf /tmp/*
+RUN curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions && \
+    chmod +x /usr/local/bin/install-php-extensions
+RUN install-php-extensions apcu imagick memcached redis mysqli pdo_mysql bcmath exif gd gmp intl opcache pcntl sockets zip sysvsem bz2
+RUN sed -i 's/pm.max_children = 5/pm.max_children = 16/g' /usr/local/etc/php-fpm.d/www.conf && \
     sed -i 's/pm.start_servers = 2/pm.start_servers = 4/g' /usr/local/etc/php-fpm.d/www.conf && \
     sed -i 's/pm.min_spare_servers = 1/pm.min_spare_servers = 4/g' /usr/local/etc/php-fpm.d/www.conf && \
     sed -i 's/pm.max_spare_servers = 3/pm.max_spare_servers = 12/g' /usr/local/etc/php-fpm.d/www.conf && \
