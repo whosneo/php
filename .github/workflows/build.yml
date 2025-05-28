@@ -32,3 +32,24 @@ jobs:
           tags: |
             whosneo/php:latest
             whosneo/php:${{ env.DATE }}
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+      - name: Clean up old images
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          ONE_YEAR_AGO=$(date -d "365 days ago" +%Y-%m-%d)
+          tags=$(curl -s -H "Authorization: JWT $DOCKERHUB_TOKEN" \
+            "https://hub.docker.com/v2/namespaces/$DOCKERHUB_USERNAME/repositories/php/tags?page_size=100" | \
+            jq -r '.results[] | select(.name | test("^[0-9]{8}$")) | .name + "," + .last_updated')
+          while IFS=',' read -r tag last_updated; do
+            last_updated_date=$(date -d "$last_updated" +%Y-%m-%d)
+            if [[ "$last_updated_date" < "$ONE_YEAR_AGO" ]]; then
+              curl -s -X DELETE -H "Authorization: JWT $DOCKERHUB_TOKEN" \
+                "https://hub.docker.com/v2/namespaces/$DOCKERHUB_USERNAME/repositories/php/tags/$tag"
+              echo "Deleted tag whosneo/php:$tag (last updated: $last_updated_date)"
+            else
+              echo "Keeping tag whosneo/php:$tag (last updated: $last_updated_date)"
+            fi
+          done <<< "$tags"
