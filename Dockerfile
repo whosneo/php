@@ -13,7 +13,7 @@ RUN curl -sSLf -o /usr/local/bin/install-php-extensions https://github.com/mloca
     chmod +x /usr/local/bin/install-php-extensions
 
 # Install PHP extensions
-RUN install-php-extensions apcu imagick memcached redis mysqli pdo_mysql bcmath exif gd gmp intl opcache pcntl sockets zip sysvsem bz2
+RUN install-php-extensions apcu imagick memcached redis pgsql pdo_pgsql mysqli pdo_mysql bcmath exif gd gmp intl opcache pcntl sockets zip sysvsem bz2
 
 # Configure PHP-FPM and PHP
 RUN sed -i -e 's/pm.max_children = 5/pm.max_children = 16/g' \
