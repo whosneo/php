@@ -27,6 +27,7 @@ RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
         echo "memory_limit = 512M"; \
         echo "upload_max_filesize = 100M"; \
         echo "post_max_size = 100M"; \
+        echo "max_input_vars = 5000"; \
         echo "date.timezone = Asia/Shanghai"; \
     } > /usr/local/etc/php/conf.d/99-custom.ini && \
     sed -i \
