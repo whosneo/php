@@ -12,7 +12,17 @@ RUN set -eux && \
 
 COPY --from=mlocati/php-extension-installer:latest /usr/bin/install-php-extensions /usr/local/bin/
 
-RUN install-php-extensions apcu bcmath bz2 exif gd gmp imagick intl memcached mysqli opcache pcntl pdo_mysql pdo_pgsql pgsql redis sockets sysvsem zip
+RUN set -eux; \
+    attempt=1; \
+    until install-php-extensions apcu bcmath bz2 exif gd gmp imagick intl memcached mysqli opcache pcntl pdo_mysql pdo_pgsql pgsql redis sockets sysvsem zip; do \
+        if [ "$attempt" -ge 5 ]; then \
+            echo "install-php-extensions failed after $attempt attempts"; \
+            exit 1; \
+        fi; \
+        echo "install-php-extensions failed (attempt $attempt), retrying in $((attempt * 10))s..."; \
+        sleep $((attempt * 10)); \
+        attempt=$((attempt + 1)); \
+    done
 
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini && \
     { \
