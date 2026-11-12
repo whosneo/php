@@ -1,4 +1,4 @@
-name: Auto build php:fpm-alpine with custom extensions
+name: Auto build php:fpm with custom extensions
 
 on:
   workflow_dispatch:
